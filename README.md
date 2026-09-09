@@ -1,71 +1,47 @@
-# scroll-with-me README
+# Scroll With Me
 
-This is the README for your extension "scroll-with-me". After writing up a brief description, we recommend including the following sections.
+Scroll With Me keeps collapsed editor carets at approximately the same vertical position in the viewport while you scroll. It works with mouse wheels, touchpads, scrollbars, minimaps, built-in scroll commands, split editors, and text diff panes.
 
-## Features
+The extension complements `editor.cursorSurroundingLines`: that VS Code setting controls the space maintained while navigating with the caret, while Scroll With Me handles viewport-only scrolling.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## Usage
 
-For example if there is an image subfolder under your extension project workspace:
+The extension is enabled automatically. Open a text editor, place the caret, and scroll vertically. The caret follows the viewport by the same number of document lines while retaining its preferred character column.
 
-\!\[feature X\]\(images/feature-x.png\)
+All collapsed carets move when using multiple cursors. If any selection contains text, caret following pauses for that editor so the extension does not change which text is selected.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Setting
 
-## Requirements
+| Setting | Type | Default | Description |
+| --- | --- | --- | --- |
+| `scrollWithMe.enabled` | boolean | `true` | Enables caret following for text and diff editors. |
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+You can configure it globally or for an individual workspace:
 
-## Extension Settings
+```json
+{
+  "scrollWithMe.enabled": false
+}
+```
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+Changes take effect immediately and do not require a window reload.
 
-For example:
+## Supported editors
 
-This extension contributes the following settings:
+Scroll With Me supports editors exposed through VS Code's `TextEditor` API, including normal, read-only, untitled, virtual, split, and text diff editors.
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+Notebook editors, custom editors, webviews, and terminals use different APIs and are not supported.
 
-## Known Issues
+## Known limitations
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+VS Code reports visible document lines, not pixel positions or rendered rows. The extension therefore uses document-line movement. Wrapped lines, folded regions, partial-line scrolling, variable-height decorations, and diff placeholders may not retain the exact visual row.
 
-## Release Notes
+VS Code also does not identify the source of a viewport change. Carets follow all viewport-only vertical changes, including wheel, touchpad, scrollbar, minimap, and command scrolling. Selection-driven viewport changes are suppressed on a best-effort basis so ordinary caret navigation remains native.
 
-Users appreciate release notes as you update your extension.
+## Development
 
-### 1.0.0
+See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) for architecture, maintenance conventions, test commands, and the manual verification matrix. The detailed behavior contract is in [docs/SPECIFICATION.md](docs/SPECIFICATION.md).
 
-Initial release of ...
+## Release notes
 
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+See [CHANGELOG.md](CHANGELOG.md).

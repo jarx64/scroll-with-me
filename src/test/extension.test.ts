@@ -1,15 +1,18 @@
 import * as assert from 'assert';
-
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
 import * as vscode from 'vscode';
-// import * as myExtension from '../../extension';
+import { enabledConfigurationId } from '../configuration';
+import { activate } from '../extension';
 
 suite('Extension Test Suite', () => {
-	vscode.window.showInformationMessage('Start all tests.');
+	test('configuration is contributed and enabled by default', () => {
+		const configuration = vscode.workspace.getConfiguration();
+		assert.strictEqual(configuration.get<boolean>(enabledConfigurationId), true);
+	});
 
-	test('Sample test', () => {
-		assert.strictEqual(-1, [1, 2, 3].indexOf(5));
-		assert.strictEqual(-1, [1, 2, 3].indexOf(0));
+	test('activation registers disposable state', () => {
+		const subscriptions: { dispose(): unknown }[] = [];
+		activate({ subscriptions } as unknown as vscode.ExtensionContext);
+		assert.strictEqual(subscriptions.length, 1);
+		subscriptions[0]?.dispose();
 	});
 });

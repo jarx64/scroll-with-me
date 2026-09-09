@@ -1,7 +1,7 @@
 {
   "name": "scroll-with-me",
-  "displayName": "scroll-with-me",
-  "description": "Scroll and take the cursor with viewport",
+  "displayName": "Scroll With Me",
+  "description": "Keep editor carets at the same viewport position while scrolling",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.136.0"
@@ -9,15 +9,22 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "scroll-with-me.helloWorld",
-        "title": "Hello World"
+    "configuration": {
+      "title": "Scroll With Me",
+      "properties": {
+        "scrollWithMe.enabled": {
+          "type": "boolean",
+          "default": true,
+          "scope": "resource",
+          "description": "Keep collapsed carets at the same vertical viewport position while scrolling text and diff editors."
+        }
       }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",
